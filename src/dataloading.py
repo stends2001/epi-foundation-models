@@ -33,12 +33,12 @@ class EpiConfig:
     split_date : str
     max_date : str
 
-def load_data(cfg: EpiConfig):
+def load_data(cfg: EpiConfig) -> pd.DataFrame:
     """load raw data from expected path based on ``disease`` of ``EpiConfig``."""
     df_raw = pd.read_csv(pm.data / 'epidemiology' / (cfg.disease+".csv"))    
     return df_raw 
 
-def process_data(df_raw: pd.DataFrame, cfg: EpiConfig):
+def process_data(df_raw: pd.DataFrame, cfg: EpiConfig) -> pd.DataFrame:
     """processes raw data based on ``EpiConfig``. Data is aggregated nationally, filtered on time, and grouped into context and test data."""    
     df_pcd = df_raw.copy()
 
