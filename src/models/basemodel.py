@@ -45,6 +45,9 @@ class BaseModel:
         self.context_data, self.test_data = self._prepare_data()
         self.predictions: pd.DataFrame | None = None
 
+    def forecast(self):
+        raise NotImplementedError('Each model childclass should have a ``forecast()`` method implemented.')
+
     def _prepare_data(self) -> tuple[pd.DataFrame, pd.DataFrame]:
         """orchestrates dataloading and processing."""
         df_raw = load_data(self.epicfg)
