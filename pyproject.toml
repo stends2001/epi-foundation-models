@@ -1,5 +1,5 @@
 [project]
-name = "epi-foudnation-models"
+name = "epi-foundation-models"
 version = "1.0.0"
 description = "TiRex predictiosn of national case counts"
 dependencies = [
