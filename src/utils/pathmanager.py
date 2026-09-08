@@ -1,5 +1,7 @@
 from pathlib import Path
 
+from .exceptions import PathNotFound
+
 class PathManager:
     """ 
     Manages paths in this project.
@@ -18,3 +20,9 @@ class PathManager:
         self.root   = Path(__file__).resolve().parent.parent.parent 
         self.data           = self.root / 'data'
         self.src            = self.root / 'src'
+
+        if not self.data.exists():
+            self.data.mkdir()
+
+        if not self.src.exists():
+            raise PathNotFound(self.src)
