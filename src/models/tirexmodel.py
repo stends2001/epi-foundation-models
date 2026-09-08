@@ -1,13 +1,10 @@
 import torch 
 import pandas as pd 
-import matplotlib.pyplot as plt 
-import seaborn as sns
 import numpy as np
 
 from tirex import ForecastModel, load_model
 
 from .basemodel import BaseModel
-
 from ..dataloading import EpiConfig
 
 
