@@ -9,6 +9,7 @@ pm = PathManager()
 class EpiConfig:
     """
     Task - configuration class.
+    NOTE please use 'YYYY-MM-DD' for dates.
 
     Parameters
     ----------
