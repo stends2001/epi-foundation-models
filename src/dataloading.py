@@ -26,6 +26,15 @@ class EpiConfig:
     ----------
     Data is loaded and processed based on ``EpiConfig``, inside ``BaseModel``.
     Models forecast based on the processed data.
+
+    Examples
+    --------
+    >>> cfg = EpiConfig(
+    ...    'campylobacter',
+    ...    '2002-01-01',
+    ...    '2024-01-01',
+    ...    '2025-01-01'
+    ...    )
     """
 
     disease : str 
