@@ -7,6 +7,8 @@ from tirex import ForecastModel, load_model
 from .basemodel import BaseModel
 from ..dataloading import EpiConfig
 
+from ..utils import TiRexInstallationError, PathManager
+
 class TiRexModel(BaseModel):
     """
     TiRexModel.
@@ -56,9 +58,19 @@ class TiRexModel(BaseModel):
         modelname  = 'tirex'
         modelcolor = "#1b9e77"
 
-        self.model: ForecastModel = load_model("NX-AI/TiRex", backend="torch") #type: ignore
+        self._load_tirex_model()
 
         super().__init__(modelname, modelcolor, epiconfig)
+
+    def _load_tirex_model(self):
+        """validate that model.cpkt is in the expected location, else raise an exception."""
+        expected_path = PathManager().src / 'models' / 'NX-AI' / 'TiRex' / 'model.ckpt'
+
+        if expected_path.exists():
+            self.model: ForecastModel = load_model("NX-AI/TiRex", backend="torch") #type: ignore
+
+        else:
+            raise TiRexInstallationError()
 
     def forecast(self):
         """Make model predictions, stored into ``predictions``."""
