@@ -7,6 +7,26 @@ pm = PathManager()
 
 @dataclass 
 class EpiConfig:
+    """
+    Task - configuration class.
+
+    Parameters
+    ----------
+    disease : str
+        Name of the disease, as saved in data.
+    min_date : str
+        Minimum date; the starte date of context data.
+    split_date : str
+        The start date of the test data.
+    max_date : str
+        The final date of the test data.
+
+    Downstream
+    ----------
+    Data is loaded and processed based on ``EpiConfig``, inside ``BaseModel``.
+    Models forecast based on the processed data.
+    """
+
     disease : str 
 
     min_date : str
@@ -14,10 +34,12 @@ class EpiConfig:
     max_date : str
 
 def load_data(cfg: EpiConfig):
+    """load raw data from expected path based on ``disease`` of ``EpiConfig``."""
     df_raw = pd.read_csv(pm.data / 'epidemiology' / (cfg.disease+".csv"))    
     return df_raw 
 
 def process_data(df_raw: pd.DataFrame, cfg: EpiConfig):
+    """processes raw data based on ``EpiConfig``. Data is aggregated nationally, filtered on time, and grouped into context and test data."""    
     df_pcd = df_raw.copy()
 
     # aggregate to national case numbers
