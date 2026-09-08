@@ -1,0 +1,40 @@
+import pandas as pd 
+from dataclasses import dataclass
+
+from .utils import PathManager
+
+pm = PathManager()
+
+@dataclass 
+class EpiConfig:
+    disease : str 
+
+    min_date : str
+    split_date : str
+    max_date : str
+
+def load_data(cfg: EpiConfig):
+    df_raw = pd.read_csv(pm.data / 'epidemiology' / (cfg.disease+".csv"))    
+    return df_raw 
+
+def process_data(df_raw: pd.DataFrame, cfg: EpiConfig):
+    df_pcd = df_raw.copy()
+
+    # aggregate to national case numbers
+    df_pcd = df_pcd.groupby(['timestamp'])['cases'].sum().reset_index(drop = False)
+
+    # set timestamp as datetime 
+    df_pcd['timestamp'] = pd.to_datetime(df_pcd['timestamp'])    
+
+    # set context and test columns
+    df_pcd['context']   = ((df_pcd['timestamp'] >= cfg.min_date) & (df_pcd['timestamp'] < cfg.split_date))
+    df_pcd['test']      = ((df_pcd['timestamp'] >= cfg.split_date) & (df_pcd['timestamp'] <= cfg.max_date)) 
+
+    # remove other dates   
+    df_pcd = df_pcd[df_pcd['timestamp'] < cfg.max_date]
+    df_pcd = df_pcd[df_pcd['timestamp'] >= cfg.min_date]
+
+    # set cases as int
+    df_pcd['cases'] = df_pcd['cases'].astype(int)
+
+    return df_pcd.reset_index(drop = True)
