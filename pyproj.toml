@@ -1,0 +1,15 @@
+[project]
+name = "epi-foudnation-models"
+version = "1.0.0"
+description = "TiRex predictiosn of national case counts"
+dependencies = [
+    "numpy==2.3.2",
+    "matplotlib==3.10.3",
+    "pandas==2.2.3",
+    "seaborn==0.13.2",
+    "torch==2.4.0",
+]
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
