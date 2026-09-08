@@ -1,7 +1,7 @@
 import pandas as pd 
 from dataclasses import dataclass
 
-from .utils import PathManager
+from .utils import PathManager, PathNotFound
 
 pm = PathManager()
 
@@ -35,7 +35,12 @@ class EpiConfig:
 
 def load_data(cfg: EpiConfig) -> pd.DataFrame:
     """load raw data from expected path based on ``disease`` of ``EpiConfig``."""
-    df_raw = pd.read_csv(pm.data / 'epidemiology' / (cfg.disease+".csv"))    
+    expected_path = pm.data / 'epidemiology' / (cfg.disease+".csv")
+
+    if not expected_path.exists():
+        raise PathNotFound(expected_path)
+
+    df_raw = pd.read_csv(expected_path)    
     return df_raw 
 
 def process_data(df_raw: pd.DataFrame, cfg: EpiConfig) -> pd.DataFrame:
