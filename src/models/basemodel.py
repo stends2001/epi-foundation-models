@@ -103,8 +103,6 @@ class BaseModel:
         sns.lineplot(self.test_data,  x = 'timestamp', y = 'cases',  color = self.testcolor,    label = 'test',ax = ax)    
         sns.lineplot(self.predictions,  x = 'timestamp', y = 'pred',   color = self.modelcolor, label = 'predictions', ax = ax)
 
-        
-
         ax.fill_between(
                         x       = self.predictions['timestamp'],
                         y1      = self.predictions['pred_q1'],
